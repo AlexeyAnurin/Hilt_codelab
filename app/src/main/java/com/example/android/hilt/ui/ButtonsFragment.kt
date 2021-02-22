@@ -48,6 +48,15 @@ class ButtonsFragment : Fragment() {
     override fun onAttach(context: Context) {
         super.onAttach(context)
 
+        populateFields(context)
+    }
+
+    private fun populateFields(context: Context) {
+        logger = (context.applicationContext as LogApplication).
+            serviceLocator.loggerLocalDataSource
+
+        navigator = (context.applicationContext as LogApplication).
+            serviceLocator.provideNavigator(activity!!)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
