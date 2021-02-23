@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.android.hilt.LogApplication
 import com.example.android.hilt.R
 import com.example.android.hilt.data.Log
+import com.example.android.hilt.data.LoggerDataSource
 import com.example.android.hilt.data.LoggerLocalDataSource
 import com.example.android.hilt.util.DateFormatter
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,16 +25,18 @@ import javax.inject.Inject
 @AndroidEntryPoint
 class LogsFragment : Fragment() {
 
-    //  field injection.
-    @Inject lateinit var logger: LoggerLocalDataSource
-    @Inject lateinit var dateFormatter: DateFormatter
+    @Inject
+    lateinit var logger: LoggerDataSource
+    // @Inject lateinit var logger: LoggerLocalDataSource
+    @Inject
+    lateinit var dateFormatter: DateFormatter
 
     private lateinit var recyclerView: RecyclerView
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater,
+            container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_logs, container, false)
     }
@@ -53,10 +56,10 @@ class LogsFragment : Fragment() {
 
         logger.getAllLogs { logs ->
             recyclerView.adapter =
-                LogsViewAdapter(
-                    logs,
-                    dateFormatter
-                )
+                    LogsViewAdapter(
+                            logs,
+                            dateFormatter
+                    )
         }
     }
 }
@@ -65,16 +68,16 @@ class LogsFragment : Fragment() {
  * RecyclerView adapter for the logs list.
  */
 private class LogsViewAdapter(
-    private val logsDataSet: List<Log>,
-    private val daterFormatter: DateFormatter
+        private val logsDataSet: List<Log>,
+        private val daterFormatter: DateFormatter
 ) : RecyclerView.Adapter<LogsViewAdapter.LogsViewHolder>() {
 
     class LogsViewHolder(val textView: TextView) : RecyclerView.ViewHolder(textView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): LogsViewHolder {
         return LogsViewHolder(
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.text_row_item, parent, false) as TextView
+                LayoutInflater.from(parent.context)
+                        .inflate(R.layout.text_row_item, parent, false) as TextView
         )
     }
 
